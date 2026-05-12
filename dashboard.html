@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — LOGOAI</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #050508; color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; }
+  .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 260px; background: #0a0a0f; border-right: 1px solid rgba(124,58,237,0.15); display: flex; flex-direction: column; padding: 32px 20px; z-index: 100; }
+  .sidebar-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; background: linear-gradient(135deg, #7c3aed, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 48px; padding-left: 12px; }
+  .sidebar-nav { flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; color: #94a3b8; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-bottom: 4px; text-decoration: none; }
+  .nav-item:hover { background: rgba(124,58,237,0.1); color: #fff; }
+  .nav-item.active { background: rgba(124,58,237,0.15); color: #fff; border: 1px solid rgba(124,58,237,0.3); }
+  .nav-item .icon { font-size: 18px; width: 24px; text-align: center; }
+  .sidebar-bottom { border-top: 1px solid rgba(124,58,237,0.15); padding-top: 20px; }
+  .user-info { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px; background: rgba(124,58,237,0.08); margin-bottom: 12px; }
+  .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #7c3aed, #ec4899); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .user-details { flex: 1; overflow: hidden; }
+  .user-email-text { font-size: 12px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-plan-badge { font-size: 11px; color: #7c3aed; font-weight: 600; text-transform: uppercase; }
+  .btn-logout { width: 100%; padding: 10px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #94a3b8; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+  .btn-logout:hover { border-color: #ec4899; color: #ec4899; }
+  .main { margin-left: 260px; min-height: 100vh; padding: 40px; }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+  .page-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; }
+  .page-subtitle { color: #94a3b8; font-size: 14px; margin-top: 4px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+  .stat-card { background: #0f0f1a; border: 1px solid rgba(124,58,237,0.15); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .stat-card:hover { border-color: rgba(124,58,237,0.4); transform: translateY(-2px); }
+  .stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; background: radial-gradient(circle, rgba(124,58,237,0.15), transparent); border-radius: 50%; }
+  .stat-icon { font-size: 24px; margin-bottom: 16px; }
+  .stat-label { color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 40px; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat-sub { color: #94a3b8; font-size: 12px; margin-top: 4px; }
+  .upgrade-banner { background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(236,72,153,0.2)); border: 1px solid rgba(124,58,237,0.3); border-radius: 16px; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; gap: 16px; }
+  .upgrade-banner-left { display: flex; align-items: center; gap: 16px; }
+  .upgrade-icon { font-size: 36px; }
+  .upgrade-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .upgrade-desc { color: #94a3b8; font-size: 13px; }
+  .btn-upgrade { padding: 12px 28px; background: linear-gradient(135deg, #7c3aed, #ec4899); border: none; border-radius: 10px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; transition: opacity 0.2s, transform 0.2s; }
+  .btn-upgrade:hover { opacity: 0.85; transform: scale(1.03); }
+  .section-card { background: #0f0f1a; border: 1px solid rgba(124,58,237,0.15); border-radius: 16px; padding: 28px; margin-bottom: 28px; }
+  .section-card-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .generate-form { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+  .form-group input, .form-group select { padding: 12px 16px; background: #1a1a2e; border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; color: #fff; font-size: 14px; font-family: 'Inter', sans-serif; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus { outline: none; border-color: rgba(124,58,237,0.6); }
+  .form-group select option { background: #1a1a2e; }
+  .btn-generate { padding: 12px 24px; background: linear-gradient(135deg, #7c3aed, #ec4899); border: none; border-radius: 10px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; height: 46px; }
+  .btn-generate:hover { opacity: 0.85; }
+  .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+  .gen-status { margin-top: 16px; color: #94a3b8; font-size: 14px; min-height: 20px; display: flex; align-items: center; gap: 8px; }
+  .gen-result { margin-top: 20px; display: flex; align-items: flex-start; gap: 20px; }
+  .gen-result img { width: 180px; height: 180px; object-fit: cover; border-radius: 12px; border: 1px solid rgba(124,58,237,0.3); }
+  .gen-result-info { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  .gen-result-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+  .gen-result-style { color: #94a3b8; font-size: 13px; }
+  .btn-download { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: linear-gradient(135deg, #7c3aed, #ec4899); color: #fff; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 500; width: fit-content; }
+  .logos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .logo-card { background: #1a1a2e; border: 1px solid rgba(124,58,237,0.15); border-radius: 12px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; cursor: pointer; }
+  .logo-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.5); }
+  .logo-card img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .logo-card-info { padding: 10px 12px; }
+  .logo-card-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .logo-card-style { color: #94a3b8; font-size: 11px; text-transform: capitalize; }
+  .empty-state { text-align: center; padding: 60px 20px; color: #94a3b8; grid-column: 1/-1; }
+  .empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state p { font-size: 15px; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-top-color: #7c3aed; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (max-width: 900px) { .sidebar { display: none; } .main { margin-left: 0; padding: 20px; } .stats-grid { grid-template-columns: 1fr 1fr; } .generate-form { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sidebar-logo">LOGO AI</div>
+  <nav class="sidebar-nav">
+    <a class="nav-item active"><span class="icon">🎨</span> Dashboard</a>
+    <a class="nav-item"><span class="icon">🖼️</span> My Logos</a>
+    <a class="nav-item"><span class="icon">💳</span> Billing</a>
+    <a class="nav-item"><span class="icon">⚙️</span> Settings</a>
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="user-info">
+      <div class="user-avatar" id="user-avatar">B</div>
+      <div class="user-details">
+        <div class="user-email-text" id="user-email">Loading...</div>
+        <div class="user-plan-badge" id="user-plan">FREE</div>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="logout()">Sign Out</button>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dashboard 👋</div>
+      <div class="page-subtitle">Create stunning logos for your brand in seconds.</div>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">⚡</div>
+      <div class="stat-label">Credits Left</div>
+      <div class="stat-value" id="credits">—</div>
+      <div class="stat-sub">Logo generations remaining</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🖼️</div>
+      <div class="stat-label">Logos Created</div>
+      <div class="stat-value" id="logos-count">0</div>
+      <div class="stat-sub">Total logos generated</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🚀</div>
+      <div class="stat-label">Current Plan</div>
+      <div class="stat-value" id="plan-stat" style="font-size:28px;">FREE</div>
+      <div class="stat-sub">Upgrade for more logos</div>
+    </div>
+  </div>
+
+  <div class="upgrade-banner">
+    <div class="upgrade-banner-left">
+      <div class="upgrade-icon">🚀</div>
+      <div>
+        <div class="upgrade-title">Upgrade to Pro — €19/month</div>
+        <div class="upgrade-desc">50 logos/month • SVG + PNG • No watermark • Commercial license</div>
+      </div>
+    </div>
+    <button class="btn-upgrade" onclick="upgrade()">Upgrade Now →</button>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card-title">✨ Generate New Logo</div>
+    <div class="generate-form">
+      <div class="form-group">
+        <label>Company Name</label>
+        <input type="text" id="company-name" placeholder="e.g. Nova Tech">
+      </div>
+      <div class="form-group">
+        <label>Industry</label>
+        <select id="logo-industry">
+          <option value="technology">Technology</option>
+          <option value="fashion">Fashion</option>
+          <option value="food">Food & Restaurant</option>
+          <option value="finance">Finance</option>
+          <option value="health">Health & Fitness</option>
+          <option value="education">Education</option>
+          <option value="real estate">Real Estate</option>
+          <option value="creative">Creative Agency</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Style</label>
+        <select id="logo-style">
+          <option value="minimal">Minimal</option>
+          <option value="bold">Bold</option>
+          <option value="modern">Modern</option>
+          <option value="luxury">Luxury</option>
+          <option value="playful">Playful</option>
+          <option value="vintage">Vintage</option>
+        </select>
+      </div>
+      <button class="btn-generate" id="gen-btn" onclick="generateLogo()">Generate ✨</button>
+    </div>
+    <div class="gen-status" id="gen-status"></div>
+    <div class="gen-result" id="gen-result"></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-card-title">🖼️ Your Logos</div>
+    <div class="logos-grid" id="logos-grid">
+      <div class="empty-state">
+        <div class="empty-icon">🎨</div>
+        <p>No logos yet. Generate your first logo above!</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  const API = "https://logoai-backend-ixtedp8lt-bogdanpopusoi07-8958s-projects.vercel.app";
+  let token = localStorage.getItem("logoai_token");
+
+  if (!token) window.location.href = "index.html";
+
+  async function loadProfile() {
+    try {
+      const res = await fetch(`${API}/api/profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const profile = await res.json();
+      const email = profile.email || "";
+      document.getElementById("user-email").textContent = email;
+      document.getElementById("user-avatar").textContent = email.charAt(0).toUpperCase();
+      document.getElementById("user-plan").textContent = (profile.plan || "free").toUpperCase();
+      document.getElementById("credits").textContent = profile.credits ?? 0;
+      document.getElementById("plan-stat").textContent = (profile.plan || "free").toUpperCase();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function loadLogos() {
+    try {
+      const res = await fetch(`${API}/api/logos`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const logos = await res.json();
+      document.getElementById("logos-count").textContent = logos.length ?? 0;
+      if (!logos.length) return;
+      document.getElementById("logos-grid").innerHTML = logos.map(logo => `
+        <div class="logo-card">
+          <img src="${logo.image_url}" alt="${logo.company_name}" />
+          <div class="logo-card-info">
+            <div class="logo-card-name">${logo.company_name}</div>
+            <div class="logo-card-style">${logo.style}</div>
+          </div>
+        </div>
+      `).join("");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function generateLogo() {
+    const companyName = document.getElementById("company-name").value.trim();
+    const style = document.getElementById("logo-style").value;
+    const industry = document.getElementById("logo-industry").value;
+    const btn = document.getElementById("gen-btn");
+    const status = document.getElementById("gen-status");
+    const result = document.getElementById("gen-result");
+
+    if (!companyName) {
+      status.textContent = "⚠️ Please enter a company name!";
+      return;
+    }
+
+    btn.disabled = true;
+    status.innerHTML = `<span class="spinner"></span> Generating your logo with AI...`;
+    result.innerHTML = "";
+
+    try {
+      const res = await fetch(`${API}/api/generate-logo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ companyName, style, industry, colors: "purple and white" })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        status.textContent = `❌ ${data.error}`;
+        return;
+      }
+
+      result.innerHTML = `
+        <img src="${data.imageUrl}" alt="Generated logo" />
+        <div class="gen-result-info">
+          <div class="gen-result-name">${companyName}</div>
+          <div class="gen-result-style">${style} • ${industry}</div>
+          <a href="${data.imageUrl}" download="${companyName}-logo.png" class="btn-download">⬇ Download PNG</a>
+        </div>
+      `;
+      status.innerHTML = "✨ Your logo is ready!";
+      loadProfile();
+      loadLogos();
+
+    } catch (err) {
+      status.textContent = "❌ Connection error. Is the server running?";
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+async function upgrade() {
+  try {
+    const res = await fetch(`${API}/api/create-checkout`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` }
+    });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Error creating checkout. Please try again.");
+      }
+    } catch (err) {
+      alert("Connection error. Is the server running?");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("logoai_token");
+    window.location.href = "index.html";
+  }
+
+  loadProfile();
+  loadLogos();
+</script>
+</body>
+</html>

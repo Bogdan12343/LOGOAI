@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LOGOAI - AI Logo Generator for Modern Brands</title>
+  <meta name="description" content="Create stunning logos in seconds with LOGOAI. AI-powered logo generation with SVG exports, brand kits, and commercial licensing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+
+  <header class="site-header" id="site-header">
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <nav class="navbar container">
+      <a href="#hero" class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text gradient-text">LOGO AI</span>
+      </a>
+
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-menu" id="nav-menu">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#examples">Examples</a>
+        <a href="#faq">FAQ</a>
+        <a href="#blog">Blog</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-ghost">Sign In</button>
+        <a href="#pricing" class="btn btn-gradient">Start Free</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <span class="hero-badge">✨ Powered by GPT-5 Vision</span>
+          <h1>
+            Create Your Perfect Logo in
+            <span class="typing-wrap"><span id="hero-typing">10 Seconds</span></span>
+          </h1>
+          <p class="hero-subtitle" id="hero-subtitle"></p>
+          <p class="rating">★★★★★ <span>4.9/5 from 12,000+ businesses</span></p>
+          <div class="hero-cta">
+            <a href="#pricing" class="btn btn-gradient btn-lg">Generate My Logo Free →</a>
+            <button class="btn btn-ghost btn-lg">Watch Demo ▶</button>
+          </div>
+          <div class="trust-badges">
+            <span>No design skills needed</span>
+            <span>Commercial license</span>
+            <span>SVG included</span>
+          </div>
+        </div>
+
+        <div class="hero-mockup floating reveal">
+          <div class="mockup-card">
+            <h3>AI Logo Studio</h3>
+            <label for="company-input">Company name</label>
+            <input id="company-input" type="text" placeholder="e.g. Nova Labs">
+            <p class="mockup-label">Style</p>
+            <div class="style-pills">
+              <button class="pill active">Minimal</button>
+              <button class="pill">Bold</button>
+              <button class="pill">Modern</button>
+              <button class="pill">Playful</button>
+              <button class="pill">Luxury</button>
+            </div>
+            <button class="btn btn-gradient full" id="generate-btn">Generate</button>
+            <div class="gen-status" id="gen-status">Ready to generate</div>
+            <div class="generated-logos" id="generated-logos"></div>
+          </div>
+          <div class="floating-badge badge-a">PNG</div>
+          <div class="floating-badge badge-b">SVG</div>
+          <div class="floating-badge badge-c">HD Quality</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="social-proof section-sm reveal">
+      <div class="container">
+        <p>Trusted by 12,000+ businesses worldwide</p>
+        <div class="marquee">
+          <div class="marquee-track">
+            <span>NOVA TECH</span><span>GREENBYTE</span><span>LUMO FOODS</span><span>CAPSTONE</span><span>HEALTHIQ</span><span>FLOWBANK</span><span>ATOM WEAR</span><span>PIXELY</span>
+            <span>NOVA TECH</span><span>GREENBYTE</span><span>LUMO FOODS</span><span>CAPSTONE</span><span>HEALTHIQ</span><span>FLOWBANK</span><span>ATOM WEAR</span><span>PIXELY</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="features">
+      <div class="container">
+        <h2>Everything You Need to Build Your Brand</h2>
+        <div class="features-grid">
+          <article class="feature-card tilt-card"><div class="icon-wrap">⚡</div><h3>AI-Powered Generation</h3><p>GPT-4 creates unique logos that align with your brand personality.</p></article>
+          <article class="feature-card tilt-card"><div class="icon-wrap">🎨</div><h3>Infinite Styles</h3><p>From minimal to luxury aesthetics, tailor every visual direction instantly.</p></article>
+          <article class="feature-card tilt-card"><div class="icon-wrap">📐</div><h3>Vector Quality</h3><p>Download crisp SVG assets ready for print, apps, and billboards.</p></article>
+          <article class="feature-card tilt-card"><div class="icon-wrap">⚡</div><h3>10-Second Results</h3><p>Generate polished concepts in seconds, not days of back-and-forth.</p></article>
+          <article class="feature-card tilt-card"><div class="icon-wrap">🔄</div><h3>Unlimited Revisions</h3><p>Keep generating fresh options until you find your perfect mark.</p></article>
+          <article class="feature-card tilt-card"><div class="icon-wrap">📦</div><h3>Full Brand Kit</h3><p>Get your logo, palette, and typography pack in one export.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="container">
+        <h2>From Idea to Logo in 3 Steps</h2>
+        <div class="steps-line"></div>
+        <div class="steps-grid">
+          <article class="step-card tilt-card"><span class="num">01</span><div class="step-icon">🧠</div><h3>Describe Your Brand</h3><p>Enter name, industry, and style preferences.</p></article>
+          <article class="step-card tilt-card"><span class="num">02</span><div class="step-icon">✨</div><h3>AI Generates Options</h3><p>Receive 4 unique logo directions in moments.</p></article>
+          <article class="step-card tilt-card"><span class="num">03</span><div class="step-icon">🚀</div><h3>Download & Launch</h3><p>Export PNG, SVG, and PDF ready for production.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="examples">
+      <div class="container">
+        <h2>Logos Created by LOGOAI</h2>
+        <div class="filters" id="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="tech">Tech</button>
+          <button class="filter-btn" data-filter="food">Food</button>
+          <button class="filter-btn" data-filter="fashion">Fashion</button>
+          <button class="filter-btn" data-filter="finance">Finance</button>
+          <button class="filter-btn" data-filter="health">Health</button>
+        </div>
+        <div class="gallery" id="gallery">
+          <article class="logo-card tilt-card" data-category="tech"><div class="shape s1"></div><h4>NeuraStack</h4><span>Tech</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="food"><div class="shape s2"></div><h4>Viva Bowl</h4><span>Food</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="fashion"><div class="shape s3"></div><h4>Veloure</h4><span>Fashion</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="finance"><div class="shape s4"></div><h4>PrimeLedger</h4><span>Finance</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="health"><div class="shape s5"></div><h4>MediRise</h4><span>Health</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="tech"><div class="shape s6"></div><h4>CloudMint</h4><span>Tech</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="fashion"><div class="shape s7"></div><h4>Atelier+Co</h4><span>Fashion</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="food"><div class="shape s8"></div><h4>Nori House</h4><span>Food</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="finance"><div class="shape s9"></div><h4>BlueYield</h4><span>Finance</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="health"><div class="shape s10"></div><h4>Pulseora</h4><span>Health</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="tech"><div class="shape s11"></div><h4>Qubix AI</h4><span>Tech</span><em>Made with LOGOAI</em></article>
+          <article class="logo-card tilt-card" data-category="food"><div class="shape s12"></div><h4>Zestly</h4><span>Food</span><em>Made with LOGOAI</em></article>
+        </div>
+        <button class="btn btn-ghost center-btn">Load More</button>
+      </div>
+    </section>
+
+    <section class="section reveal" id="pricing">
+      <div class="container">
+        <h2>Simple, Transparent Pricing</h2>
+        <div class="pricing-toggle">
+          <span>Monthly</span>
+          <label class="switch">
+            <input type="checkbox" id="price-toggle">
+            <span class="slider"></span>
+          </label>
+          <span>Yearly</span>
+          <b>20% OFF</b>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card tilt-card">
+            <h3>FREE</h3>
+            <p class="price" data-monthly="€0/mo" data-yearly="€0/mo">€0/mo</p>
+            <ul><li>5 logo generations/month</li><li>PNG download only</li><li>Basic styles (3)</li><li>Watermark on exports</li><li>Email support</li></ul>
+            <button class="btn btn-muted full">Get Started</button>
+          </article>
+          <article class="pricing-card featured tilt-card">
+            <span class="popular">MOST POPULAR</span>
+            <h3>PRO</h3>
+            <p class="price" data-monthly="€19/mo" data-yearly="€15/mo">€19/mo</p>
+            <ul><li>Unlimited generations</li><li>PNG + SVG + PDF</li><li>All styles (20+)</li><li>No watermark</li><li>Brand kit included</li><li>Priority support</li><li>Commercial license</li></ul>
+            <button class="btn btn-gradient full">Start Pro Trial</button>
+          </article>
+          <article class="pricing-card tilt-card">
+            <h3>AGENCY</h3>
+            <p class="price" data-monthly="€49/mo" data-yearly="€39/mo">€49/mo</p>
+            <ul><li>Everything in Pro</li><li>10 team members</li><li>White-label exports</li><li>API access</li><li>Dedicated account manager</li><li>Custom style training</li></ul>
+            <button class="btn btn-ghost full">Contact Sales</button>
+          </article>
+        </div>
+        <p class="pricing-footnote">✓ 14-day free trial ✓ No credit card required ✓ Cancel anytime</p>
+      </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="container">
+        <h2>What Our Customers Say</h2>
+        <div class="testimonial-wrap">
+          <div class="testimonials" id="testimonials">
+            <article class="testimonial active"><p>★★★★★</p><blockquote>LOGOAI replaced weeks of agency back-and-forth. We found our final brand mark in less than 20 minutes, and the SVG exports were production-perfect.</blockquote><div class="person"><span class="avatar">AR</span><div><strong>Ana Rivera</strong><small>Founder, BloomCart</small></div><span class="company-box">BC</span></div></article>
+            <article class="testimonial"><p>★★★★★</p><blockquote>Our launch deadline was brutal, but LOGOAI gave us multiple premium directions instantly. The brand kit made handoff to developers seamless.</blockquote><div class="person"><span class="avatar">DK</span><div><strong>Daniel Kim</strong><small>CMO, NeuraWave</small></div><span class="company-box">NW</span></div></article>
+            <article class="testimonial"><p>★★★★★</p><blockquote>I was skeptical at first. Then I saw how well it interpreted our style prompts. The final identity looks like a six-figure branding engagement.</blockquote><div class="person"><span class="avatar">SJ</span><div><strong>Sarah Jones</strong><small>CEO, Atlas Health</small></div><span class="company-box">AH</span></div></article>
+          </div>
+          <div class="dots" id="testimonial-dots">
+            <button class="dot active" data-index="0"></button>
+            <button class="dot" data-index="1"></button>
+            <button class="dot" data-index="2"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="faq">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          <article class="faq-item"><button class="faq-q">Do I own the logos I create?</button><div class="faq-a"><p>Yes. You retain full ownership rights for downloaded logos on paid plans.</p></div></article>
+          <article class="faq-item"><button class="faq-q">What file formats do I get?</button><div class="faq-a"><p>Depending on your plan, exports include PNG, SVG, and PDF files.</p></div></article>
+          <article class="faq-item"><button class="faq-q">Can I use logos commercially?</button><div class="faq-a"><p>Absolutely. Pro and Agency include a commercial usage license.</p></div></article>
+          <article class="faq-item"><button class="faq-q">How is this different from Canva?</button><div class="faq-a"><p>LOGOAI generates bespoke concepts from prompts, instead of template-only editing.</p></div></article>
+          <article class="faq-item"><button class="faq-q">Do I need design experience?</button><div class="faq-a"><p>No. The workflow is designed for founders, teams, and creators without design backgrounds.</p></div></article>
+          <article class="faq-item"><button class="faq-q">Can I edit the logo after generating?</button><div class="faq-a"><p>Yes. You can regenerate variants and refine style direction in seconds.</p></div></article>
+          <article class="faq-item"><button class="faq-q">What if I don't like the results?</button><div class="faq-a"><p>Keep generating unlimited new concepts on Pro and Agency until it matches your vision.</p></div></article>
+          <article class="faq-item"><button class="faq-q">Is there a free trial?</button><div class="faq-a"><p>Yes. Start free with no credit card and upgrade only when you're ready.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta reveal">
+      <div class="container cta-inner">
+        <h2>Ready to Build Your Brand?</h2>
+        <p>Join 12,000+ businesses who trust LOGOAI</p>
+        <button class="btn btn-white btn-lg">Generate Your Free Logo →</button>
+        <small>No credit card required</small>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer section" id="blog">
+    <div class="container footer-top">
+      <div>
+        <a href="#hero" class="logo"><span class="logo-icon">⚡</span><span class="logo-text gradient-text">LOGO AI</span></a>
+        <p>AI-crafted identity systems for ambitious modern brands.</p>
+      </div>
+      <div><h4>Product</h4><a href="#">Features</a><a href="#">Pricing</a><a href="#">API</a><a href="#">Templates</a></div>
+      <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Customers</a><a href="#">Contact</a></div>
+      <div><h4>Resources</h4><a href="#">Blog</a><a href="#">Help Center</a><a href="#">Guides</a><a href="#">Status</a></div>
+      <div><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">License</a><a href="#">Security</a></div>
+    </div>
+    <div class="container footer-bottom">
+      <p>© 2026 LOGOAI. All rights reserved.</p>
+      <div class="socials"><a href="#">Twitter</a><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">ProductHunt</a></div>
+      <p>Made with ❤️ and AI</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- Auth Modal -->
+<div id="auth-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:#0f0f1a;border:1px solid rgba(124,58,237,0.3);border-radius:16px;padding:40px;width:100%;max-width:420px;position:relative;">
+    <button onclick="closeAuth()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;">✕</button>
+    
+    <div style="display:flex;gap:16px;margin-bottom:28px;">
+      <button id="tab-login" onclick="switchTab('login')" style="flex:1;padding:10px;border-radius:8px;border:none;background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;font-weight:600;cursor:pointer;">Sign In</button>
+      <button id="tab-register" onclick="switchTab('register')" style="flex:1;padding:10px;border-radius:8px;border:1px solid rgba(124,58,237,0.4);background:none;color:#fff;cursor:pointer;">Register</button>
+    </div>
+
+    <input id="auth-email" type="email" placeholder="Email address" style="width:100%;padding:12px 16px;background:#1a1a2e;border:1px solid rgba(124,58,237,0.3);border-radius:8px;color:#fff;margin-bottom:12px;box-sizing:border-box;">
+    <input id="auth-password" type="password" placeholder="Password" style="width:100%;padding:12px 16px;background:#1a1a2e;border:1px solid rgba(124,58,237,0.3);border-radius:8px;color:#fff;margin-bottom:20px;box-sizing:border-box;">
+    
+    <button onclick="submitAuth()" style="width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#ec4899);border:none;border-radius:8px;color:#fff;font-weight:600;font-size:16px;cursor:pointer;">Continue</button>
+    <p id="auth-message" style="color:#ec4899;margin-top:12px;text-align:center;font-size:14px;"></p>
+  </div>
+</div>
+
+</body>
+</html>
