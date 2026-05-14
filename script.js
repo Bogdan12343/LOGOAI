@@ -1,5 +1,5 @@
 let userToken = localStorage.getItem("logoai_token") || null;
-const API = "https://logoai-backend-ixtedp8lt-bogdanpopusoi07-8958s-projects.vercel.app";
+const API = "https://logoai-backend.vercel.app";
 
 const header = document.getElementById("site-header");
 const scrollProgress = document.getElementById("scroll-progress");
